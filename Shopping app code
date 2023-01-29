@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Shopping App',
+      home: ShoppingList(),
+    );
+  }
+}
+
+class ShoppingList extends StatefulWidget {
+  @override
+  _ShoppingListState createState() => _ShoppingListState();
+}
+
+class _ShoppingListState extends State<ShoppingList> {
+  final List<String> _shoppingList = [];
+
+  void _addToList(String item) {
+    setState(() {
+      _shoppingList.add(item);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shopping List'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _shoppingList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_shoppingList[index]),
+                );
+              },
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              _addToList('item');
+            },
+            child: Text('Add Item'),
+          ),
+        ],
+      ),
+    );
+  }
+}
