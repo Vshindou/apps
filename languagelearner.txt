@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Language Learning App',
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String _currentWord = 'Hello';
+  String _currentTranslation = 'Bonjour';
+
+  void _nextWord() {
+    setState(() {
+      // update currentWord and currentTranslation to the next word
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Language Learning App'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                _currentWord,
+                style: TextStyle(fontSize: 36),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                _currentTranslation,
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+          ),
+          RaisedButton(
+            onPressed: _nextWord,
+            child: Text('Next Word'),
+          ),
+        ],
+      ),
+    );
+  }
+}
