@@ -1,0 +1,56 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class CryptoPriceTrackerPage extends StatefulWidget {
+  @override
+  _CryptoPriceTrackerPageState createState() =>
+      _CryptoPriceTrackerPageState();
+}
+
+class _CryptoPriceTrackerPageState extends State<CryptoPriceTrackerPage> {
+  String _selectedCrypto = "BTC";
+  double _price = 0.0;
+
+  Future<void> _getPrice() async {
+    final response = await http.get(
+        "https://api.coingecko.com/api/v3/simple/price?ids=$_selectedCrypto&vs_currencies=usd");
+    final priceData = jsonDecode(response.body);
+    setState(() {
+      _price = priceData[_selectedCrypto]["usd"];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Crypto Price Tracker"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DropdownButton<String>(
+              value: _selectedCrypto,
+              items: ["BTC", "ETH", "LTC", "XRP"].map((crypto) {
+                return DropdownMenuItem<String>(
+                  value: crypto,
+                  child: Text(crypto),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedCrypto = newValue;
+                });
+                _getPrice();
+              },
+            ),
+            SizedBox(height: 16.0),
+            Text("\$$_price"),
+          ],
+        ),
+      ),
+    );
+  }
+}
